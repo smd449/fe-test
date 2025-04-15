@@ -1,54 +1,55 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Run Locally
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+  pnpm i
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Start the server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+  pnpm run dev
 ```
+
+
+I initially used TanStack Query for fetching and Zustand for state management, and it was great—cleaner and more efficient since I didn’t have to drill props. However, after rereading the instructions, I realized I was required to use only useState and useEffect, so I scrapped the first version and built a new one using those hooks.
+
+## Optimizations
+
+
+Debounce – I debounced the search textarea to prevent re-renders on every keystroke.
+
+useMemo – I used useMemo for all derived state like filteredData to avoid unnecessary recalculations.
+
+useCallback – I wrapped all functions passed to child components with useCallback to prevent them from being recreated on every render, which also avoids triggering re-renders in memoized components.
+
+React.memo – I wrapped performance-heavy components (like ListContainer and CardsContainer) with React.memo, and used custom comparison functions to ensure they only re-render when their array props actually change.
+
+Lazy Load – I lazy-loaded as many components as possible to reduce the size of the main index.js bundle.
+
+Dynamic Import – I used dynamic imports for lazy-loaded components so the browser only requests those chunks when needed.
+
+Minimal useEffect Usage – I used useEffect only once, keeping side effects clean and minimal.
+
+UseReducer - I used UseReducer instead of creating multiple useStates
+## Questions
+
+
+- Question 1: How would you manage state in a large-scale React app?
+Answer:
+In a large-scale React app, especially when working with a big team, I’d use a state management library like Redux. It helps keep the state predictable, centralized, and easier to debug, while enforcing a clear and consistent convention across the team.
+
+- Question 2: How would you optimize performance in React using useEffect, useMemo, and useCallback?
+Answer:
+With useEffect, make sure to include the correct dependencies in the array and always clean up any event listeners, timers, or subscriptions in the return function. Avoid overusing it for logic that doesn’t involve side effects.
+
+useMemo is helpful for memoizing expensive derived state to avoid unnecessary recalculations.
+
+useCallback is useful for memoizing functions especially those passed as props to memoized child components to avoid triggering unnecessary re-renders.
+
+That said, these tools should only be used when necessary. Overusing them can lead to more complexity than performance gain.
+
+- Question 3: How would you ensure accessibility in the User Directory component?
+Answer:
+I’d use clear, semantic HTML to structure the content properly. I'd also add meaningful labels and ARIA attributes where needed for example, using the <button> element for buttons instead of divs or spans, and ensuring that all interactive elements are focusable and screen reader-friendly.
