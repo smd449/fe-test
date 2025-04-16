@@ -32,9 +32,7 @@ export default function Home() {
       </Grid>
 
       {Boolean(!data?.length) && (
-        <Center>
           <Alert severity="info">There's nothing to see here</Alert>
-        </Center>
       )}
 
       {!!data && (
