@@ -12,8 +12,7 @@ Start the server
   pnpm run dev
 ```
 
-
-I initially used TanStack Query for fetching and Zustand for state management, and it was great—cleaner and more efficient since I didn’t have to drill props. However, after rereading the instructions, I realized I was required to use only useState and useEffect, so I scrapped the first version and built a new one using those hooks.
+I initially used TanStack Query for fetching and Zustand for state management, and it was great—cleaner and more efficient since I didn’t have to drill props. However, after rereading the instructions, I realized I was required to use only useState and useEffect, so I scrapped the first version and built a new one using those hooks. While I sometimes use AI autocomplete in my previous regular work, **I made sure to turn it off for this assessment to showcase my raw React.js knowledge and to benchmark myself for my own sanity :)**
 
 ## Optimizations
 
